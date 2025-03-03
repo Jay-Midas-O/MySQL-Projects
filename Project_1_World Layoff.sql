@@ -1,4 +1,4 @@
--- Data Cleaning
+---------------------------------------------------------------------------------------------------- Data Cleaning ----------------------------------------------------------------------------------------------------
 USE world_layoffs;
 
 SELECT *
@@ -15,14 +15,14 @@ LIKE layoffs;
 SELECT *
 FROM layoff_staging;
 
-SELECT Company
+SELECT 
+	Company
 FROM layoff_staging;
 --WHERE location = 'New York';
 
 INSERT INTO layoff_staging
 SELECT * 
 FROM layoffs;
-
 
 
 -- REMOVE DUPLICATE
@@ -84,7 +84,9 @@ SELECT DISTINCT (company)
 FROM layoff_staging;
 
 
-SELECT company, TRIM(company) AS Trimed
+SELECT 
+	company, 
+	TRIM(company) AS Trimed
 FROM layoff_staging;
 
 UPDATE layoff_staging
@@ -93,7 +95,8 @@ SET company = TRIM(company);
 SELECT *
 FROM layoff_staging;
 
-SELECT DISTINCT industry
+SELECT 
+	DISTINCT industry
 FROM layoff_staging
 ORDER BY 1;
 
@@ -103,20 +106,24 @@ ORDER BY 1;
 -- SET industry = 'Aerospace'
 -- WHERE industry LIKE 'Aero%';
 
-SELECT DISTINCT industry
+SELECT 
+	DISTINCT industry
 FROM layoff_staging
 WHERE industry LIKE 'Aerospace';
 
-SELECT DISTINCT location
+SELECT 
+	DISTINCT location
 FROM layoff_staging
 ORDER BY 1;
 
-SELECT DISTINCT country
+SELECT 
+	DISTINCT country
 FROM layoff_staging
 WHERE country LIKE 'U%';
--- ORDER BY 1;
 
-SELECT DISTINCT country
+-- ORDER BY 1;
+SELECT 
+	DISTINCT country
 FROM layoff_staging
 ORDER BY 1;
 
@@ -126,8 +133,9 @@ WHERE country = 'UAE';
 
 -- CHANGING THE DATA FORMAT TO ACTUAL SQL DATA TYPE
 
-SELECT `date`,
-str_to_date(`date` ,'%Y/%m/%d')
+SELECT 
+	`date`,
+	str_to_date(`date` ,'%Y/%m/%d')
 FROM layoff_staging;
 
 UPDATE layoff_staging2
@@ -139,7 +147,9 @@ MODIFY COLUMN `date` DATE;
 
 -- 3. NULL VALUES OR BLANK COLUMN
 
-SELECT company, industry
+SELECT 
+	company, 
+	industry
 FROM layoff_staging
 WHERE industry = NULL;
 
@@ -153,46 +163,28 @@ WHERE funds_raised= '';
 
 -- COPYING FROM ONE ROW TO OTHER ROW IN THE SAME TABLE
 
--- SELECT t1.industry, t2.industry
--- FROM layoff_staging t1
--- JOIN layoff_staging t2
-	-- ON t1.company=t2.company
--- WHERE t1.industry IS NULL
--- AND t2.industry IS NOT NULL;
+SELECT 
+	t1.industry, 
+	t2.industry
+FROM layoff_staging t1
+JOIN layoff_staging t2
+ON t1.company=t2.company
+WHERE t1.industry IS NULL AND t2.industry IS NOT NULL;
 
--- UPDATE layoff_staging t1
--- JOIN layoff_staging t2
-	-- ON t1.company=t2.company
--- SET t1.industry=t2.industry
--- WHERE t1.industry IS NULL
--- AND t2.industry IS NOT NULL;
+UPDATE layoff_staging t1
+JOIN layoff_staging t2 ON t1.company=t2.company
+SET t1.industry=t2.industry
+WHERE t1.industry IS NULL AND t2.industry IS NOT NULL;
 
 -- DELETING SOME COLUNMS
 
 SELECT *
 FROM layoff_staging
-WHERE total_laid_off IS NULL
-AND percentage_laid_off IS NULL;
+WHERE total_laid_off IS NULL AND percentage_laid_off IS NULL;
 
 DELETE
 FROM layoff_staging
-WHERE total_laid_off IS NULL
-AND percentage_laid_off IS NULL;
+WHERE total_laid_off IS NULL AND percentage_laid_off IS NULL;
 
 SELECT *
 FROM layoff_staging;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
